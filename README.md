@@ -1,7 +1,7 @@
 # nodejs-shopexample-mysql
 This is a simple shop application example based around Node.js. It has all the basic features that one would expect from an online store: an admin area, a cart, a product showcase and payment integration.
 
-The purpose of this software is to study and develop my skills in Node.js.
+The purpose of this software is to study and develop my skills in Node.js. This project is still in development!
 
 It uses:
  
