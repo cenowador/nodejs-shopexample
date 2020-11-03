@@ -1,0 +1,10 @@
+extends ./base-layout
+
+block content
+    include ./includes/navigation
+    
+    main
+        h1 Internal server error!
+        if error
+            p #{error}
+    include ./includes/end

@@ -1,0 +1,30 @@
+extends ../base-layout
+append styles
+    link(rel="stylesheet", href="/css/product.css")
+
+block content
+    include ../includes/navigation
+
+    main
+        if prods.length > 0
+            .grid
+                each product in prods
+                    article.card.product-item
+                        header.card__header
+                            h1.product__title #{product.title}
+                        .card__image
+                            img(src=`/${product.imageUrl}`, alt=`${product.title}`)
+                        .card__content
+                            h2.product__price $#{product.price}
+                            p.product__description #{product.description}
+                        .card__actions
+                            a.btn(href="/admin/edit-product/"+`${product._id}`+"?edit=true") Edit
+                            form(action="/admin/delete-product", method="POST")
+                                button.btn(type="button", onclick="deleteProduct(this);") Delete
+                                input(type="hidden", name="productId", value=`${product._id}`)
+                                input(type="hidden", name="_csrf", value=`${csrfToken}`)
+        else
+            h1 No Products Found!
+    
+    script(src="/js/admin.js")
+    include ../includes/end

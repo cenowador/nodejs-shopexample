@@ -1,0 +1,44 @@
+extends ../base-layout
+append styles
+    link(rel="stylesheet", href="/css/forms.css")
+    link(rel="stylesheet", href="/css/product.css")
+
+block content
+    include ../includes/navigation
+
+    main
+        if editing
+            form.product-form(action=`/admin/edit-product?_csrf=${csrfToken}`, method="POST", enctype="multipart/form-data")
+                input(type="hidden", name="_csrf", value=`${csrfToken}`)
+                .form-control
+                    label(for="title") Title
+                     input(type="text", name="title", value=`${product.title}`)#title
+                .form-control
+                    label(for="productImage") Image
+                    input(type="file", name="productImage")#productImage
+                .form-control
+                    label(for="price") Price
+                    input(type="number", name="price", step="0.01", value=`${product.price}`)#price
+                .form-control
+                    label(for="description") Description
+                    textarea(name="description", rows="5")#description #{product.description}
+                button.btn(type="submit") Update
+                input(type="hidden", name="productId", value=`${product._id}`)
+        else
+            form.product-form(action=`/admin/add-product?_csrf=${csrfToken}`, method="POST", enctype="multipart/form-data")
+                input(type="hidden", name="_csrf", value=`${csrfToken}`)
+                .form-control
+                    label(for="title") Title
+                    input(type="text", name="title")#title
+                .form-control
+                    label(for="productImage") Image
+                    input(type="file", name="productImage")#productImage
+                .form-control
+                    label(for="price") Price
+                    input(type="number", name="price", step="0.01")#price
+                .form-control
+                    label(for="description") Description
+                    textarea(name="description", rows="5")#description
+                button.btn(type="submit") Add Product
+
+    include ../includes/end

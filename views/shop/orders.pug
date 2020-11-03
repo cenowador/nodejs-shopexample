@@ -1,0 +1,17 @@
+extends ../base-layout
+
+block content
+    include ../includes/navigation
+    main
+        if orders.length > 0
+            ul
+                for order in orders
+                    li
+                        h2 order #{order._id}:
+                        ul
+                            for p in order.products
+                                li #{p.product.title}(#{p.quantity}): #{p.product.price}
+        else
+            h1 Nothing there!
+
+    include ../includes/end

@@ -1,0 +1,3 @@
+section.pagination
+    - for (var pageNum = 0; pageNum < lastPage; pageNum++)
+        a(href=`?page=${pageNum+1}`, class=`${pageNum+1 == currentPage?"active":null}`) #{pageNum+1}

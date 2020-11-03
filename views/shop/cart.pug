@@ -1,0 +1,21 @@
+extends ../base-layout
+append styles
+    link(rel="stylesheet", href="/css/cart.css")
+
+block content
+    include ../includes/navigation
+
+    main
+        if products.length > 0
+            ul
+                for prods in products
+                    li #{prods.product.title} (#{prods.quantity})
+                    form(action="/cart-delete-item", method="POST")
+                        button.btn(type="submit") Remove
+                        input(type="hidden", name="productId", value=`${prods.product._id}`)
+                        input(type="hidden", name="_csrf", value=`${csrfToken}`)
+            a.btn(href="/checkout") Checkout
+        else
+            h1 No products found!
+
+    include ../includes/end

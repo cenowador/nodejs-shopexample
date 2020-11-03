@@ -1,0 +1,36 @@
+{
+  "name": "nodejs-shopexample-mongodb",
+  "version": "1.0.0",
+  "description": "A simple Shop application example based around Node.js",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "nodemon app.js",
+    "start-prod": "node app.js"
+  },
+  "author": "Jorge Augusto dos Santos",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.2.1",
+    "nodemon": "^1.19.4",
+    "sinon": "^9.2.1"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "connect-flash": "^0.1.1",
+    "connect-mongodb-session": "^2.4.1",
+    "csurf": "^1.11.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "express-validator": "^6.6.1",
+    "mongodb": "^3.6.2",
+    "mongoose": "^5.10.9",
+    "multer": "^1.4.2",
+    "nodemailer": "^6.4.14",
+    "pug": "^2.0.4",
+    "stripe": "^8.119.0"
+  }
+}
