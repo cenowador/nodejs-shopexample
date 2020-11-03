@@ -6,7 +6,7 @@ const stripe = Stripe(process.env.STRIPE_SECRET);
 //constants
 const ITEMS_PER_PAGE = 2;
 
-//GET request to /
+//GET request to '/'
 exports.getIndex = (req, res, next) => {
   const page = req.query.page || 1;
   let totalItems = 0;

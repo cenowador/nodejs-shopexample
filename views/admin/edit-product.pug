@@ -7,38 +7,41 @@ block content
     include ../includes/navigation
 
     main
-        if editing
-            form.product-form(action=`/admin/edit-product?_csrf=${csrfToken}`, method="POST", enctype="multipart/form-data")
-                input(type="hidden", name="_csrf", value=`${csrfToken}`)
-                .form-control
-                    label(for="title") Title
-                     input(type="text", name="title", value=`${product.title}`)#title
-                .form-control
-                    label(for="productImage") Image
-                    input(type="file", name="productImage")#productImage
-                .form-control
-                    label(for="price") Price
-                    input(type="number", name="price", step="0.01", value=`${product.price}`)#price
-                .form-control
-                    label(for="description") Description
-                    textarea(name="description", rows="5")#description #{product.description}
-                button.btn(type="submit") Update
+        form.product-form(action=`/admin/${editing ? 'edit' : 'add'}-product?_csrf=${csrfToken}`, method="POST", enctype="multipart/form-data")
+            .form-control
+                label(for="title") Title
+                input(type="text", name="title", value=`${editing ? product.title : ''}`)#title
+                if validationErrors.length > 0
+                    each err in validationErrors
+                        if err.param === "title"
+                            p.validation-error #{err.msg}
+                            -break
+            .form-control
+                label(for="productImage") Image
+                input(type="file", name="productImage")#productImage
+                if validationErrors.length > 0
+                    each err in validationErrors
+                        if err.param === "productImage"
+                            p.validation-error #{err.msg}
+                            -break
+            .form-control
+                label(for="price") Price
+                input(type="number", name="price", step="0.01", value=`${editing ? product.price : null}`)#price
+                if validationErrors.length > 0
+                    each err in validationErrors
+                        if err.param === "price"
+                            p.validation-error #{err.msg}
+                            -break
+            .form-control
+                label(for="description") Description
+                textarea(name="description", rows="5")#description #{editing ? product.description : ''}
+                if validationErrors.length > 0
+                    each err in validationErrors
+                        if err.param === "description"
+                            p.validation-error #{err.msg}
+                            -break
+            button.btn(type="submit") #{editing ? 'Update' : 'Create'}
+            if editing
                 input(type="hidden", name="productId", value=`${product._id}`)
-        else
-            form.product-form(action=`/admin/add-product?_csrf=${csrfToken}`, method="POST", enctype="multipart/form-data")
-                input(type="hidden", name="_csrf", value=`${csrfToken}`)
-                .form-control
-                    label(for="title") Title
-                    input(type="text", name="title")#title
-                .form-control
-                    label(for="productImage") Image
-                    input(type="file", name="productImage")#productImage
-                .form-control
-                    label(for="price") Price
-                    input(type="number", name="price", step="0.01")#price
-                .form-control
-                    label(for="description") Description
-                    textarea(name="description", rows="5")#description
-                button.btn(type="submit") Add Product
 
     include ../includes/end

@@ -1,29 +1,38 @@
+//global modules
+const {validationResult} = require('express-validator');
+
 //local modules
 const Product = require('../models/product');
 const fileHandling = require('../util/file-handling');
 
 //GET request to /admin/add-product
 exports.getAddProduct = (req, res, next) => {
+  let validationErrors = req.flash('validationErrors');
+  if (validationErrors.length <= 0)
+    validationErrors = [];
+
   res.render('admin/edit-product', {
     pageTitle: 'Add Product',
     path: '/admin/add-product',
     editing: false,
+    validationErrors: validationErrors
   });
 };
 
 //POST request to /admin/add-product
 exports.postAddProduct = (req, res, next) => {
+  const validationErrors = validationResult(req);
+  if (!validationErrors.isEmpty()) {
+    req.flash('validationErrors', validationErrors.array());
+    return res.status(422).redirect('/admin/add-product');
+  }
   const title = req.body.title;
   const image = req.file;
   const price = req.body.price;
   const description = req.body.description;
   if(!image){
-    return res.status(422).render('admin/products', {
-      prods: products,
-      pageTitle: 'Admin Products',
-      path: '/admin/products',
-      editing: false
-    });
+    req.flash('validationErrors', [{param:'productImage', msg: 'Insert a valid image'}]);
+    return res.status(422).redirect('/admin/add-product');
   }
   const product = new Product({
     title: title,
@@ -43,6 +52,12 @@ exports.postAddProduct = (req, res, next) => {
 
 //GET request to /admin/edit-product/:productId
 exports.getEditProduct = (req, res, next) => {
+  const validationErrors = validationResult(req);
+  if (!validationErrors.isEmpty()) {
+    req.flash('validationErrors', validationErrors.array());
+    return res.status(422).redirect('/admin/add-product');
+  }
+
   const editMode = (req.query.edit === 'true');
   if (!editMode)
     return res.redirect('/');
@@ -57,7 +72,8 @@ exports.getEditProduct = (req, res, next) => {
         pageTitle: 'Edit Product',
         path: '/admin/edit-product',
         editing: editMode,
-        product: product
+        product: product,
+        validationErrors: []
       });
     })
     .catch(err => {
@@ -74,6 +90,9 @@ exports.postEditProduct = (req, res, next) => {
   const description = req.body.description;
   Product.findById(productId)
     .then(updatedProduct => {
+      if(!updatedProduct)
+        return res.redirect('/');
+
       if (updatedProduct.userId.toString() !== req.user._id.toString())
         return res.redirect('/');
 

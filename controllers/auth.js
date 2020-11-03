@@ -1,9 +1,7 @@
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
-const {
-    validationResult
-} = require('express-validator');
+const {validationResult} = require('express-validator');
 
 const User = require('../models/user');
 
@@ -16,6 +14,8 @@ exports.getLogin = (req, res, next) => {
     let errorMessage = req.flash('wrongInfo');
     if (errorMessage.length <= 0)
         errorMessage = null;
+    else
+        errorMessage = errorMessage[0];
 
     res.render('auth/login', {
         path: '/login',
@@ -34,43 +34,40 @@ exports.postLogin = (req, res, next) => {
             wrongInfo: errors.array()[0].msg
         });
     }
-
     const email = req.body.email;
     const password = req.body.password;
-    User.findOne({
-            email: email
-        })
-        .then(user => {
-            if (!user) {
+    User.findOne({email: email})
+    .then(user => {
+        if (!user) {
+            req.flash('wrongInfo', 'Wrong email or password!');
+            return res.redirect('/login');
+        }
+        bcrypt.compare(password, user.password)
+        .then(passwordMatch => {
+            if(!passwordMatch){
                 req.flash('wrongInfo', 'Wrong email or password!');
                 return res.redirect('/login');
             }
-
-            bcrypt.compare(password, user.password)
-                .then(passwordMatch => {
-                    if (passwordMatch) {
-                        req.session.user = user;
-                        return req.session.save(err => {
-                            if (err)
-                                console.log(err);
-
-                            res.render('auth/login', {
-                                path: '/login',
-                                pageTitle: 'Login',
-                                user: req.session.user
-                            });
-                        });
-                    }
-                    res.redirect('/login');
-                })
-                .catch(err => {
+            req.session.user = user;
+            return req.session.save(err => {
+                if (err)
                     console.log(err);
-                    return res.redirect('/login');
+
+                res.render('auth/login', {
+                    path: '/login',
+                    pageTitle: 'Login',
+                    user: req.session.user
                 });
+            });
         })
         .catch(err => {
-            next(new Error(err));
+            console.log(err);
+            return res.redirect('/login');
         });
+    })
+    .catch(err => {
+        next(new Error(err));
+    });
 };
 
 //POST request to /logout

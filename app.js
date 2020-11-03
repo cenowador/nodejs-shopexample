@@ -1,5 +1,5 @@
 //env variables
-require('dotenv').load()
+require('dotenv').config()
 
 //global modules
 const path = require('path');
@@ -10,6 +10,7 @@ const session = require('express-session');
 const mongoDbStore = require('connect-mongodb-session')(session);
 const csrf = require('csurf');
 const flash = require('connect-flash');
+const helmet = require('helmet');
 
 //local modules
 const errorController = require('./controllers/error'); //error controller
@@ -36,6 +37,7 @@ const sessionStorage = new mongoDbStore({
 
 //app configs
 app.set('view engine', 'pug');
+app.use(helmet());
 app.use(bodyParser.urlencoded({
     extended: false
 }));
