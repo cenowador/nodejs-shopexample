@@ -11,16 +11,25 @@ const mailTransporter = nodemailer.createTransport(mailUri);
 
 //GET request to /login
 exports.getLogin = (req, res, next) => {
+    //if inserted wrong info
     let errorMessage = req.flash('wrongInfo');
     if (errorMessage.length <= 0)
         errorMessage = null;
     else
         errorMessage = errorMessage[0];
+    
+    //if not authorized
+    let notAuth = req.flash('notAuthorized');
+    if (notAuth.length <= 0)
+        notAuth = null;
+    else
+        notAuth = notAuth[0];
 
     res.render('auth/login', {
         path: '/login',
         pageTitle: 'Login',
-        wrongInfo: errorMessage
+        wrongInfo: errorMessage,
+        notAuthorized: notAuth
     });
 };
 

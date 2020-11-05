@@ -7,41 +7,45 @@ block content
     include ../includes/navigation
 
     main
-        form.product-form(action=`/admin/${editing ? 'edit' : 'add'}-product?_csrf=${csrfToken}`, method="POST", enctype="multipart/form-data")
-            .form-control
-                label(for="title") Title
-                input(type="text", name="title", value=`${editing ? product.title : ''}`)#title
-                if validationErrors.length > 0
-                    each err in validationErrors
-                        if err.param === "title"
-                            p.validation-error #{err.msg}
-                            -break
-            .form-control
-                label(for="productImage") Image
-                input(type="file", name="productImage")#productImage
-                if validationErrors.length > 0
-                    each err in validationErrors
-                        if err.param === "productImage"
-                            p.validation-error #{err.msg}
-                            -break
-            .form-control
-                label(for="price") Price
-                input(type="number", name="price", step="0.01", value=`${editing ? product.price : null}`)#price
-                if validationErrors.length > 0
-                    each err in validationErrors
-                        if err.param === "price"
-                            p.validation-error #{err.msg}
-                            -break
-            .form-control
-                label(for="description") Description
-                textarea(name="description", rows="5")#description #{editing ? product.description : ''}
-                if validationErrors.length > 0
-                    each err in validationErrors
-                        if err.param === "description"
-                            p.validation-error #{err.msg}
-                            -break
-            button.btn(type="submit") #{editing ? 'Update' : 'Create'}
-            if editing
-                input(type="hidden", name="productId", value=`${product._id}`)
+        if productNotFound
+            p.validation-error #{productNotFound}
+            a.btn(href="/") Ir para página inicial
+        else
+            form.product-form(action=`/admin/${editing ? 'edit' : 'add'}-product?_csrf=${csrfToken}`, method="POST", enctype="multipart/form-data")
+                .form-control
+                    label(for="title") Title
+                    input(type="text", name="title", value=`${editing ? product.title : ''}`)#title
+                    if validationErrors.length > 0
+                        each err in validationErrors
+                            if err.param === "title"
+                                p.validation-error #{err.msg}
+                                -break
+                .form-control
+                    label(for="productImage") Image
+                    input(type="file", name="productImage")#productImage
+                    if validationErrors.length > 0
+                        each err in validationErrors
+                            if err.param === "productImage"
+                                p.validation-error #{err.msg}
+                                -break
+                .form-control
+                    label(for="price") Price
+                    input(type="number", name="price", step="0.01", value=`${editing ? product.price : null}`)#price
+                    if validationErrors.length > 0
+                        each err in validationErrors
+                            if err.param === "price"
+                                p.validation-error #{err.msg}
+                                -break
+                .form-control
+                    label(for="description") Description
+                    textarea(name="description", rows="5")#description #{editing ? product.description : ''}
+                    if validationErrors.length > 0
+                        each err in validationErrors
+                            if err.param === "description"
+                                p.validation-error #{err.msg}
+                                -break
+                button.btn(type="submit") #{editing ? 'Update' : 'Create'}
+                if editing
+                    input(type="hidden", name="productId", value=`${product._id}`)
 
     include ../includes/end

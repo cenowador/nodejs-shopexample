@@ -10,6 +10,9 @@ block content
         if user
             h2 Welcome, #{user.email}
         else
+            if notAuth
+                div
+                    h3 #{notAuth}
             if wrongInfo
                 div
                     h3 #{wrongInfo}
