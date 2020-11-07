@@ -6,6 +6,8 @@ block content
     include ../includes/navigation
 
     main
+        if user
+            h3 Olá, #{user}!
         if prods.length > 0
             .grid
                 each product in prods
@@ -24,7 +26,7 @@ block content
                                 input(type="hidden", name="productId", value=`${product._id}`)
                                 input(type="hidden", name="_csrf", value=`${csrfToken}`)
         else
-            h1 No Products Found!
+            h1 Nenhum produto disponível!
     
     script(src="/js/admin.js")
     include ../includes/end

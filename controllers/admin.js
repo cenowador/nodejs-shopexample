@@ -63,11 +63,11 @@ exports.getEditProduct = (req, res, next) => {
 
   const editMode = (req.query.edit === 'true');
   if (!editMode)
-    return res.redirect('/');
+    return res.status(500).redirect('/');
 
   const prodId = req.params.productId;
   if(!isObjectId(prodId))
-    return res.redirect('/');
+    return res.status(500).redirect('/');
 
   Product.findById(prodId)
     .then(product => {
@@ -100,7 +100,7 @@ exports.postEditProduct = (req, res, next) => {
     return res.status(422).redirect(`/admin/edit-product/${productId}?edit=true`);
   }
   if(!isObjectId(productId))
-    return res.redirect('/');
+    return res.status(500).redirect('/');
 
   const title = req.body.title;
   const image = req.file;
@@ -114,7 +114,7 @@ exports.postEditProduct = (req, res, next) => {
       }
 
       if (updatedProduct.userId.toString() !== req.user._id.toString()){
-        req.flash('notAuthorized', 'Não autorizado')
+        req.flash('notAuthorized', 'Não autorizado!')
         return res.redirect('/auth/login');
       }
 
@@ -140,7 +140,7 @@ exports.postEditProduct = (req, res, next) => {
 exports.deleteProduct = (req, res, next) => {
   const productId = req.params.productId;
   if(!isObjectId(productId))
-    return res.redirect('/');
+    return res.status(500).redirect('/');
 
   Product.findById(productId)
   .then(product =>{
@@ -165,14 +165,13 @@ exports.deleteProduct = (req, res, next) => {
 
 //GET request to /admin/products
 exports.getProducts = (req, res, next) => {
-  Product.find({
-      userId: req.user._id
-    })
-    .then(products => {
-      res.render('admin/products', {
-        prods: products,
-        pageTitle: 'Admin Products',
-        path: '/admin/products',
-      });
+  Product.find({userId: req.user._id})
+  .then(products => {
+    res.render('admin/products', {
+      prods: products,
+      pageTitle: 'Admin Products',
+      path: '/admin/products',
+      user: req.user.email
     });
+  });
 };

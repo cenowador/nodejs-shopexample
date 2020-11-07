@@ -12,13 +12,28 @@ block content
         form.login-form(action="/signup", method="POST")
             .form-control
                 label(for="email") E-Mail
-                input(type="email", name="email")#email
+                input(type="email", name="email", value=`${oldEmail ? oldEmail : ''}`)#email
+                if validationErrors.length > 0
+                        each err in validationErrors
+                            if err.param === "email"
+                                p.validation-error #{err.msg}
+                                -break
             .form-control
                 label(for="password") Password
                 input(type="password", name="password")#password
+                if validationErrors.length > 0
+                        each err in validationErrors
+                            if err.param === "password"
+                                p.validation-error #{err.msg}
+                                -break
             .form-control
-                label(for="confirmPassword") Confirm Password
-                input(type="password", name="confirmPassword")#confirmPassword
+                label(for="confirm-password") Confirm Password
+                input(type="password", name="confirm-password")#confirm-password
+                if validationErrors.length > 0
+                        each err in validationErrors
+                            if err.param === "confirm-password"
+                                p.validation-error #{err.msg}
+                                -break
             button.btn(type="submit") Signup
             input(type="hidden", name="_csrf", value=`${csrfToken}`)
 

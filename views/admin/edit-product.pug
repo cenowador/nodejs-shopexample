@@ -13,7 +13,7 @@ block content
         else
             form.product-form(action=`/admin/${editing ? 'edit' : 'add'}-product?_csrf=${csrfToken}`, method="POST", enctype="multipart/form-data")
                 .form-control
-                    label(for="title") Title
+                    label(for="title") Título
                     input(type="text", name="title", value=`${editing ? product.title : ''}`)#title
                     if validationErrors.length > 0
                         each err in validationErrors
@@ -21,7 +21,7 @@ block content
                                 p.validation-error #{err.msg}
                                 -break
                 .form-control
-                    label(for="productImage") Image
+                    label(for="productImage") Imagem
                     input(type="file", name="productImage")#productImage
                     if validationErrors.length > 0
                         each err in validationErrors
@@ -29,7 +29,7 @@ block content
                                 p.validation-error #{err.msg}
                                 -break
                 .form-control
-                    label(for="price") Price
+                    label(for="price") Preço
                     input(type="number", name="price", step="0.01", value=`${editing ? product.price : null}`)#price
                     if validationErrors.length > 0
                         each err in validationErrors
@@ -37,7 +37,7 @@ block content
                                 p.validation-error #{err.msg}
                                 -break
                 .form-control
-                    label(for="description") Description
+                    label(for="description") Descrição
                     textarea(name="description", rows="5")#description #{editing ? product.description : ''}
                     if validationErrors.length > 0
                         each err in validationErrors
