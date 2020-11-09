@@ -4,7 +4,7 @@
   "description": "A simple Shop application example based around Node.js",
   "main": "app.js",
   "scripts": {
-    "test": "mocha --recursive",
+    "test": "mocha --timeout 5000 \"test/**/*.test.js\"",
     "start": "nodemon app.js",
     "start-prod": "node app.js"
   },
