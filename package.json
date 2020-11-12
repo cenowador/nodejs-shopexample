@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "mocha --timeout 5000 \"test/**/*.test.js\"",
-    "start": "nodemon app.js",
-    "start-prod": "node app.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "author": "Jorge Augusto dos Santos",
   "license": "ISC",

@@ -11,3 +11,5 @@ It uses:
 - Mocha/Chai/Sinon as test builders
 - Nodemailer as e-mail sending engine and
 - Stripe as payment processing (sandbox)
+
+A live version of the app can be found here: https://nodejs-loja-exemplo.herokuapp.com
