@@ -184,10 +184,10 @@ exports.postReset = (req, res, next) => {
                             subject: 'Mudança de Senha', // Subject line
                             html: `${req.protocol + '://' + req.get('host') + '/reset/' + token}` // html body
                         }
-                        /*mailTransporter.sendMail(mailOptions, (err, info) =>{
+                        mailTransporter.sendMail(mailOptions, (err, info) =>{
                             if(err)
-                                console.log(err);
-                        })*/
+                                next(new Error(err));
+                        })
                         console.log(token);
                         return res.redirect('/reset');
                     })
@@ -281,10 +281,10 @@ exports.postSignup = (req, res, next) => {
             subject: 'Você se inscreveu!', // Subject line
             html: "<h2>Obrigado por se inscrever!</h2>" // html body
         }
-        /*mailTransporter.sendMail(mailOptions, (err, info) =>{
+        mailTransporter.sendMail(mailOptions, (err, info) =>{
             if(err)
-                console.log(err);
-        })*/
+                next(new Error(err));
+        })
     })
     .catch(err => {
         next(new Error(err));

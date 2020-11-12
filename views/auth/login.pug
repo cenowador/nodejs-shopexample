@@ -16,7 +16,7 @@ block content
         form.login-form(action="/login", method="POST")
             .form-control
                 label(for="email") Email
-                input(type="email", name="email", value=`${oldEmail ? oldEmail : ''}`)#email
+                input(type="email", name="email", value=`${oldEmail ? oldEmail : 'admin@test.com'}`)#email
                 if validationErrors.length > 0
                     each err in validationErrors
                         if err.param === "email"
@@ -24,7 +24,7 @@ block content
                             -break
             .form-control
                 label(for="password") Senha
-                input(type="password", name="password")#password
+                input(type="password", name="password", value='admin')#password
                 if validationErrors.length > 0
                     each err in validationErrors
                         if err.param === "password"
