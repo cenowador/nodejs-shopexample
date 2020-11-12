@@ -245,6 +245,11 @@ form {
   color: white;
 }
 
+.validation-error{
+  color: red;
+  font-size: 0.8rem;
+}
+
 @media (min-width: 768px) {
   .main-header__nav {
     display: flex;

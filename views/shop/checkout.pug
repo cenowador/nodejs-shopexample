@@ -14,7 +14,7 @@ block content
             button.btn(type="submit")#order-btn Place Order!
             script(src="https://js.stripe.com/v3/")
             script.
-                var stripe = Stripe('pk_test_51HhwoXL3UpxjTu8FRYRpQjvvYk1Ad3f8v0m7UZWwpvGprUMvvMN3I4SiWwSxwfddalAOai9A79m5a5JGdLo77pZU00rr3mNLH0');
+                var stripe = Stripe(!{JSON.stringify(process.env.STRIPE_PUBLIC).replace(/<\//g, '<\\/')});
                 var orderBtn = document.getElementById('order-btn');
                 orderBtn.addEventListener('click', function(){
                     stripe.redirectToCheckout({

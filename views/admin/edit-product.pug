@@ -14,6 +14,7 @@ block content
             form.product-form(action=`/admin/${editing ? 'edit' : 'add'}-product?_csrf=${csrfToken}`, method="POST", enctype="multipart/form-data")
                 .form-control
                     label(for="title") Título
+                        span(style="color: red; font-size: 0.9rem;") *
                     input(type="text", name="title", value=`${editing ? product.title : ''}`)#title
                     if validationErrors.length > 0
                         each err in validationErrors
@@ -22,6 +23,8 @@ block content
                                 -break
                 .form-control
                     label(for="productImage") Imagem
+                        unless editing
+                            span(style="color: red; font-size: 0.9rem;") *
                     input(type="file", name="productImage")#productImage
                     if validationErrors.length > 0
                         each err in validationErrors
@@ -30,6 +33,7 @@ block content
                                 -break
                 .form-control
                     label(for="price") Preço
+                        span(style="color: red; font-size: 0.9rem;") *
                     input(type="number", name="price", step="0.01", value=`${editing ? product.price : null}`)#price
                     if validationErrors.length > 0
                         each err in validationErrors

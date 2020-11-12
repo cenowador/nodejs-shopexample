@@ -9,10 +9,10 @@ block content
     main
         if notAuth
             div
-                h3 #{notAuth}
+                h3.centered #{notAuth}
         if wrongInfo
             div
-                h3 #{wrongInfo}
+                h3.centered #{wrongInfo}
         form.login-form(action="/login", method="POST")
             .form-control
                 label(for="email") Email

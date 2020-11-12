@@ -2,11 +2,13 @@
 require('dotenv').config()
 
 //global modules
+const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const morgan = require('morgan');
 const mongoDbStore = require('connect-mongodb-session')(session);
 const csrf = require('csurf');
 const flash = require('connect-flash');
@@ -34,6 +36,8 @@ const sessionStorage = new mongoDbStore({
     uri: MONGODB_URI,
     collection: 'sessions'
 });
+//morgan file stream
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
 
 //app configs
 app.set('view engine', 'pug');
@@ -52,6 +56,8 @@ app.use(session({
 }));
 //csrf protection
 app.use(csrf());
+// setup the logger
+app.use(morgan('combined', { stream: accessLogStream }))
 
 //sets user for each request
 app.use((req, res, next) => {
