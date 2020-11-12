@@ -4,41 +4,41 @@ header.main-header
     nav.main-header__nav
         ul.main-header__item-list
             li.main-header__item
-                a(class=path === '/' ? 'active' : '', href="/") Shop
+                a(class=path === '/' ? 'active' : '', href="/") Loja
             li.main-header__item
-                a(class=path === '/products' ? 'active' : '', href="/products") Products
+                a(class=path === '/products' ? 'active' : '', href="/products") Produtos
             if user
                 li.main-header__item
-                    a(class=path === '/cart' ? 'active' : '', href="/cart") Cart
+                    a(class=path === '/cart' ? 'active' : '', href="/cart") Carrinho
                 li.main-header__item
-                    a(class=path === '/orders' ? 'active' : '', href="/orders") Orders
+                    a(class=path === '/orders' ? 'active' : '', href="/orders") Pedidos
                 li.main-header__item
-                    a(class=path === '/admin/add-product' ? 'active' : '', href="/admin/add-product") Add Product
+                    a(class=path === '/admin/add-product' ? 'active' : '', href="/admin/add-product") Adicionar Produto
                 li.main-header__item
-                    a(class=path === '/admin/products' ? 'active' : '', href="/admin/products") Admin Products    
+                    a(class=path === '/admin/products' ? 'active' : '', href="/admin/products") Área Administrativa    
         ul.main-header__item-list
             if user
                 li.main-header__item
                     form(action="/logout", method="POST")
-                        button(class=path === '/login' ? 'active' : '', type="submit") Logout
+                        button(class=path === '/login' ? 'active' : '', type="submit") Sair
                         input(type="hidden", name="_csrf", value=`${csrfToken}`)
             else
                 li.main-header__item
-                    a(class=path === '/login' ? 'active' : '', href="/login") Login
+                    a(class=path === '/login' ? 'active' : '', href="/login") Entrar
                 li.main-header__item
-                    a(class=path === '/signup' ? 'active' : '', href="/signup") SignUp
+                    a(class=path === '/signup' ? 'active' : '', href="/signup") Registrar
 
 nav.mobile-nav
     ul.mobile-nav__item-list
         li.mobile-nav__item
-            a(class=path === '/' ? 'active' : '', href="/") Shop
+            a(class=path === '/' ? 'active' : '', href="/") Loja
         li.mobile-nav__item
-            a(class=path === '/products' ? 'active' : '', href="/products") Products
+            a(class=path === '/products' ? 'active' : '', href="/products") Produtos
         li.mobile-nav__item
-            a(class=path === '/cart' ? 'active' : '', href="/cart") Cart
+            a(class=path === '/cart' ? 'active' : '', href="/cart") Carrinho
         li.mobile-nav__item
-            a(class=path === '/orders' ? 'active' : '', href="/orders") Orders
+            a(class=path === '/orders' ? 'active' : '', href="/orders") Pedidos
         li.mobile-nav__item
-            a(class=path === '/admin/add-product' ? 'active' : '', href="/admin/add-product") Add Product
+            a(class=path === '/admin/add-product' ? 'active' : '', href="/admin/add-product") Adicionar Produtos
         li.mobile-nav__item
-            a(class=path === '/admin/products' ? 'active' : '', href="/admin/products") Admin Products
+            a(class=path === '/admin/products' ? 'active' : '', href="/admin/products") Área Administrativa
