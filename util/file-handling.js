@@ -1,4 +1,5 @@
 const fs = require('fs');
+const ObjectId = require('mongoose').Types.ObjectId;
 const Product = require('../models/product');
 const User = require('../models/user');
 
@@ -10,12 +11,42 @@ const deleteFile = (filePath) =>{
 }
 
 const resetDatabase = (mongoose) => {
-    const defaultProductsId = [
-        '5fb27e6074540e0fd05be3b6',
-        '5fb292c2e2e86b2938c4a644',
-        '5fb292ece2e86b2938c4a645',
-        '5fb29305e2e86b2938c4a646',
-        '5fb2931ae2e86b2938c4a647'
+    const defaultProducts = [
+        {
+            title: 'Celular',
+            price: 12.99,
+            imageUrl: 'https://files.catbox.moe/kbl9ej.jpg',
+            description: 'A expressão Lorem ipsum em design gráfico e editoração é um texto padrão em latim utilizado na produção gráfica para preencher os espaços de texto em publicações (jornais, revistas, e sites) para testar e ajustar aspectos visuais (layout, tipografia, formatação, etc.) antes de utilizar conteúdo real. Também é utilizado em catálogos tipográficos, para demonstrar textos e títulos escritos com as fontes.',
+            userId: ObjectId('5fa092e20a98ac309cdbaccb')
+        },
+        {
+            title: 'Notebook',
+            price: 1200.99,
+            imageUrl: 'https://files.catbox.moe/1rt32r.jpg',
+            description: 'A expressão Lorem ipsum em design gráfico e editoração é um texto padrão em latim utilizado na produção gráfica para preencher os espaços de texto em publicações (jornais, revistas, e sites) para testar e ajustar aspectos visuais (layout, tipografia, formatação, etc.) antes de utilizar conteúdo real. Também é utilizado em catálogos tipográficos, para demonstrar textos e títulos escritos com as fontes.',
+            userId: ObjectId('5fa092e20a98ac309cdbaccb')
+        },
+        {
+            title: 'Garrafa de Água',
+            price: 10.99,
+            imageUrl: 'https://files.catbox.moe/h8ojpz.jpg',
+            description: 'A expressão Lorem ipsum em design gráfico e editoração é um texto padrão em latim utilizado na produção gráfica para preencher os espaços de texto em publicações (jornais, revistas, e sites) para testar e ajustar aspectos visuais (layout, tipografia, formatação, etc.) antes de utilizar conteúdo real. Também é utilizado em catálogos tipográficos, para demonstrar textos e títulos escritos com as fontes.',
+            userId: ObjectId('5fa092e20a98ac309cdbaccb')
+        },
+        {
+            title: 'Caderno',
+            price: 20.99,
+            imageUrl: 'https://files.catbox.moe/tsdcjy.jpg',
+            description: 'A expressão Lorem ipsum em design gráfico e editoração é um texto padrão em latim utilizado na produção gráfica para preencher os espaços de texto em publicações (jornais, revistas, e sites) para testar e ajustar aspectos visuais (layout, tipografia, formatação, etc.) antes de utilizar conteúdo real. Também é utilizado em catálogos tipográficos, para demonstrar textos e títulos escritos com as fontes.',
+            userId: ObjectId('5fa092e20a98ac309cdbaccb')
+        },
+        {
+            title: 'Xícara',
+            price: 15.99,
+            imageUrl: 'https://files.catbox.moe/3a3eqj.webp',
+            description: 'A expressão Lorem ipsum em design gráfico e editoração é um texto padrão em latim utilizado na produção gráfica para preencher os espaços de texto em publicações (jornais, revistas, e sites) para testar e ajustar aspectos visuais (layout, tipografia, formatação, etc.) antes de utilizar conteúdo real. Também é utilizado em catálogos tipográficos, para demonstrar textos e títulos escritos com as fontes.',
+            userId: ObjectId('5fa092e20a98ac309cdbaccb')
+        }
     ];
     const defaultUser = {
         _id: '5fa092e20a98ac309cdbaccb',
@@ -47,9 +78,10 @@ const resetDatabase = (mongoose) => {
                 u.cart = defaultUser.cart;
                 return u.save()
                 .then(result => {
-                    return Product.deleteMany({
-                        _id: {$nin: defaultProductsId}
-                    });
+                    return Product.deleteMany({})
+                    .then(result => {
+                        return Product.insertMany(defaultProducts);
+                    })
                 })
             }
         })
