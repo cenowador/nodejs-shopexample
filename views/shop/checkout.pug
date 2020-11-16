@@ -13,7 +13,7 @@ block content
             h3 Total: #{totalPrice}
             button.btn(type="submit")#order-btn Place Order!
             script(src="https://js.stripe.com/v3/")
-            script.
+            script(nonce=`${nonce}`).
                 var stripe = Stripe(!{JSON.stringify(process.env.STRIPE_PUBLIC).replace(/<\//g, '<\\/')});
                 var orderBtn = document.getElementById('order-btn');
                 orderBtn.addEventListener('click', function(){

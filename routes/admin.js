@@ -35,13 +35,13 @@ const upload = multer({
 //validator for the product form
 const productValidator = [
     body('title', 'O título deve conter pelo menos 5 caracteres!')
-    .isLength({min: 1}).isAlphanumeric(),
+    .isLength({min: 1}).isAlphanumeric('pt-BR'),
     body('price', 'Preço inválido!')
     .isFloat({min: 0.00}),
     body('description', 'Máximo de 2000 caracteres!')
     .isLength({max: 2000}),
     oneOf([
-        body('description').isAlphanumeric(),
+        body('description').isAlphanumeric('pt-BR'),
         body('description').isEmpty()
     ], 'Descrição inválida!')
 ];

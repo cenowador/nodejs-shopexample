@@ -14,7 +14,7 @@ const router = express.Router();
 //validators
 const passwordValidator = body('password','A senha deve ter pelo menos 5 caracteres!')
     .isLength({min: 5})
-    .isAlphanumeric();
+    .isAlphanumeric('pt-BR');
 const emailValidator = body('email', 'Entre um e-mail válido.').isEmail();
 const newEmailValidator = body('email')
     .isEmail()

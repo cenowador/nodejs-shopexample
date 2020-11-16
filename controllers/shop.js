@@ -96,7 +96,7 @@ exports.getCheckout = (req, res, next) =>{
           description: p.product.description,
           amount: p.product.price * 100,
           currency: 'usd',
-          quantity: p.quantity
+          quantity: p.quantity,
         };
       }),
       success_url: req.protocol + '://' + req.get('host') + '/checkout/success',
@@ -109,7 +109,8 @@ exports.getCheckout = (req, res, next) =>{
       pageTitle: 'Checkout',
       products: products,
       totalPrice: totalPrice,
-      stripeSessionId: stripeSession.id
+      stripeSessionId: stripeSession.id,
+      nonce: res.locals.nonce
     });
   })
   .catch(err => {

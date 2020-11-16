@@ -19,6 +19,8 @@ header.main-header
         ul.main-header__item-list
             if user
                 li.main-header__item
+                    a(href="/admin/products", style="color: white;") #{user.email ? user.email : user}
+                li.main-header__item
                     form(action="/logout", method="POST")
                         button(class=path === '/login' ? 'active' : '', type="submit") Sair
                         input(type="hidden", name="_csrf", value=`${csrfToken}`)

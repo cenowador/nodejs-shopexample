@@ -7,11 +7,11 @@ block content
             ul
                 for order in orders
                     li
-                        h2 order #{order._id}:
+                        h2 Pedido #{order._id}:
                         ul
                             for p in order.products
                                 li #{p.product.title}(#{p.quantity}): #{p.product.price}
         else
-            h1 Nothing there!
+            h1 Nenhum pedido encontrado!
 
     include ../includes/end

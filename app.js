@@ -13,6 +13,7 @@ const mongoDbStore = require('connect-mongodb-session')(session);
 const csrf = require('csurf');
 const flash = require('connect-flash');
 const helmet = require('helmet');
+const generateNonce = require('./util/nonce');
 
 //local modules
 const errorController = require('./controllers/error'); //error controller
@@ -41,7 +42,25 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'),
 
 //app configs
 app.set('view engine', 'pug');
-app.use(helmet());
+app.use((req, res, next)=>{
+    res.locals.cspNonce = generateNonce();
+    helmet.contentSecurityPolicy({
+        directives: {
+        ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+        "script-src": ["https://js.stripe.com", "'self'", `'nonce-${res.locals.cspNonce}'`],
+        "script-src-elem": ["https://js.stripe.com", "'self'", `'nonce-${res.locals.cspNonce}'`],
+        "img-src":["https://files.catbox.moe", "'self'"]
+        },
+    });
+    next();
+});
+//cors
+app.use((req, res, next)=>{
+    res.setHeader('Access-Control-Allow-Origin', 'catbox.moe, stripe.com, js.stripe.com');
+    res.setHeader('Access-Control-Allow-Methods', 'GET');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-type, Authorization');
+    next();
+});
 app.use(bodyParser.urlencoded({
     extended: false
 }));

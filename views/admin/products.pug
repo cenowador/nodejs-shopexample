@@ -6,8 +6,6 @@ block content
     include ../includes/navigation
 
     main
-        if user
-            h3.centered Olá, #{user}!
         if prods.length > 0
             .grid
                 each product in prods
@@ -15,7 +13,7 @@ block content
                         header.card__header
                             h1.product__title #{product.title}
                         .card__image
-                            img(src=`/${product.imageUrl}`, alt=`${product.title}`)
+                            img(src=`${product.imageUrl}`, alt=`${product.title}`)
                         .card__content
                             h2.product__price $#{product.price}
                             p.product__description #{product.description}
@@ -27,6 +25,8 @@ block content
                                 input(type="hidden", name="_csrf", value=`${csrfToken}`)
         else
             h1 Nenhum produto disponível!
+            .centered
+                a.btn(href="/admin/add-product") Adicionar novo Produto
     
     script(src="/js/admin.js")
     include ../includes/end
