@@ -17,20 +17,28 @@ exports.getIndex = (req, res, next) => {
     .skip((page-1)*ITEMS_PER_PAGE)
     .limit(ITEMS_PER_PAGE);
   })
-    .then(products => {
-      //render page with results
-      res.render('shop/index', {
-        prods: products,
-        pageTitle: 'Home',
-        path: '/',
-        totalProducts: totalItems,
-        currentPage: page,
-        lastPage: Math.ceil(totalItems/ITEMS_PER_PAGE)
-      });
-    })
-    .catch(err => {
-      next(new Error(err));
+  .then(products => {
+    products.forEach(p => {
+      let desc = p.description;
+      if(desc.length > 150){
+        desc = desc.slice(0, (150 - desc.length-3));
+        desc += '...'; 
+        p.description = desc;
+      }
     });
+    //render page with results
+    res.render('shop/index', {
+      prods: products,
+      pageTitle: 'Home',
+      path: '/',
+      totalProducts: totalItems,
+      currentPage: page,
+      lastPage: Math.ceil(totalItems/ITEMS_PER_PAGE)
+    });
+  })
+  .catch(err => {
+    next(new Error(err));
+  });
 };
 
 //GET request to /cart

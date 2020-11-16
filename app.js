@@ -13,10 +13,11 @@ const mongoDbStore = require('connect-mongodb-session')(session);
 const csrf = require('csurf');
 const flash = require('connect-flash');
 const helmet = require('helmet');
-const generateNonce = require('./util/nonce');
 
 //local modules
 const errorController = require('./controllers/error'); //error controller
+const generateNonce = require('./util/nonce'); //nonce generator
+const resetDb = require('./util/file-handling').resetDatabase;
 
 //constants
 const MONGODB_URI = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_CLUSTER}/${process.env.MONGODB_DATABASE}?retryWrites=true&w=majority`;
@@ -124,10 +125,14 @@ mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
 //connect to database
 mongoose.connect(MONGODB_URI)
-    .then(() => {
+.then(() => {
+    //restart DB
+    return resetDb(mongoose)
+    .then(result => {
         const serverPort = process.env.PORT || 3000;
         app.listen(serverPort, () => console.log(`Server running on Port ${serverPort}`));
     })
-    .catch(err => {
-        next(new Error(err));
-    });
+})
+.catch(err => {
+    throw new Error(err);
+});
