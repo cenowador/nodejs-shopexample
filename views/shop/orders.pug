@@ -7,10 +7,14 @@ block content
             ul
                 for order in orders
                     li
-                        h2 Pedido #{order._id}:
+                        - var totalOrder = 0
+                        for prod in order.products
+                            - totalOrder += prod.product.price
+                        h2 Pedido #{order.alias}: $#{totalOrder}
                         ul
                             for p in order.products
-                                li #{p.product.title}(#{p.quantity}): #{p.product.price}
+                                article.card 
+                                    h4 #{p.product.title}(#{p.quantity}): $#{p.product.price}
         else
             h1 Nenhum pedido encontrado!
 

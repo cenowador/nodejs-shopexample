@@ -1,5 +1,6 @@
 const Product = require('../models/product');
 const Order = require('../models/order');
+const crypto = require('crypto');
 const Stripe = require('stripe');
 const stripe = Stripe(process.env.STRIPE_SECRET);
 
@@ -139,14 +140,17 @@ exports.getCheckoutSuccess = (req, res, next) => {
           }
         };
       });
-      const order = new Order({
-        user: {
-          email: req.user.email,
-          userId: req.user._id
-        },
-        products: products
-      });
-      return order.save();
+      if(products && products.length > 0){
+        const order = new Order({
+          user: {
+            email: req.user.email,
+            userId: req.user._id
+          },
+          products: products,
+          alias: crypto.randomBytes(4).toString('hex')
+        });
+        return order.save();
+      }
     })
     .then(result => {
       return req.user.clearCart();

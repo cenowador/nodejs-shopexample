@@ -7,11 +7,19 @@ block content
 
     main
         if products.length > 0
-            ul
+            .grid
                 for prods in products
-                    li #{prods.product.title} (#{prods.quantity})
-            h3 Total: #{totalPrice}
-            button.btn(type="submit")#order-btn Place Order!
+                    article.card.product-item
+                        header.card__header.centered
+                            h3.product__title #{prods.product.title}
+                        .card__image(style="height: 10rem;")
+                            img(src=`${prods.product.imageUrl}`, alt=`${prods.product.title}`)
+                        .card__content.centered
+                            h4.product__price $#{prods.product.price} (#{prods.quantity})
+                            h4 Total: $#{prods.quantity*prods.product.price}
+                .centered
+                    h1 Total: $#{totalPrice}
+                    button.btn(type="submit")#order-btn Ir para Pagamento
             script(src="https://js.stripe.com/v3/")
             script(nonce=`${nonce}`).
                 var stripe = Stripe(!{JSON.stringify(process.env.STRIPE_PUBLIC).replace(/<\//g, '<\\/')});
@@ -23,6 +31,5 @@ block content
                 });
         else
             h1.centered Nenhum produto encontrado!
-            h3.centered Faça login para adicionar um novo produto
 
     include ../includes/end

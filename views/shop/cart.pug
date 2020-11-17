@@ -7,16 +7,27 @@ block content
 
     main
         if products.length > 0
-            ul
+            - var totalFinal = 0
+            .grid
                 for prods in products
-                    li #{prods.product.title} (#{prods.quantity})
-                    form(action="/cart-delete-item", method="POST")
-                        button.btn(type="submit") Remove
-                        input(type="hidden", name="productId", value=`${prods.product._id}`)
-                        input(type="hidden", name="_csrf", value=`${csrfToken}`)
-            a.btn(href="/checkout") Checkout
+                    article.card.product-item
+                        header.card__header
+                            h1.product__title #{prods.product.title}
+                        .card__image
+                            img(src=`${prods.product.imageUrl}`, alt=`${prods.product.title}`)
+                        .card__content.centered
+                            h3.product__price $#{prods.product.price} (#{prods.quantity})
+                            h3 Total: $#{prods.quantity*prods.product.price}
+                            - totalFinal += (prods.quantity*prods.product.price)
+                        .card__actions
+                            form(action="/cart-delete-item", method="POST")
+                                button.btn(type="submit") Remover
+                                input(type="hidden", name="productId", value=`${prods.product._id}`)
+                                input(type="hidden", name="_csrf", value=`${csrfToken}`)
+            article.card.centered(style="padding-bottom: 1rem;")
+                h2 Total da Compra: $#{totalFinal}
+                a.btn(href="/checkout") Finalizar!
         else
             h1.centered Nenhum produto encontrado!
-            h3.centered Faça login para adicionar um novo produto
 
     include ../includes/end

@@ -23,6 +23,10 @@ const orderSchema = new Schema({
             ref: 'User',
             required: true
         }
+    },
+    alias: {
+        type: String,
+        required: true
     }
 });
 

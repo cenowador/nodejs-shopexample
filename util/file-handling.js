@@ -11,6 +11,7 @@ const deleteFile = (filePath) =>{
 }
 
 const resetDatabase = (mongoose) => {
+    console.log('Reseting database...');
     const defaultProducts = [
         {
             title: 'Celular',
@@ -61,9 +62,17 @@ const resetDatabase = (mongoose) => {
             if(names.some(c => c.name === 'sessions')) {
                 mongoose.connection.db.dropCollection('sessions')
                 .catch(err => {
+                    console.log('Failed to drop sessions collection!');
                     throw new Error(err);
                 });
-            }    
+            }
+            if(names.some(c => c.name === 'orders')) {
+                mongoose.connection.db.dropCollection('orders')
+                .catch(err => {
+                    console.log('Failed to drop orders collection!');
+                    throw new Error(err);
+                });
+            }
         }
     });
     return User.deleteMany({
@@ -87,6 +96,7 @@ const resetDatabase = (mongoose) => {
         })
     })
     .catch(err => {
+        console.log('Failed to fully reset database!');
         throw new Error(err);
     });
 }
