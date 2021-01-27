@@ -20,7 +20,7 @@ const generateNonce = require('./util/nonce'); //nonce generator
 const resetDb = require('./util/file-handling').resetDatabase;
 
 //constants
-const MONGODB_URI = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_CLUSTER}/${process.env.MONGODB_DATABASE}?retryWrites=true&w=majority`;
+const MONGODB_URI = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_CLUSTER}.t7fjx.mongodb.net/${process.env.MONGODB_DATABASE}?retryWrites=true&w=majority`;
 
 //models
 const User = require('./models/user');
